@@ -38,7 +38,18 @@ def get_info():
             print(err)
             continue
 
-    last_name = "Иванов"
+    is_valid_last_name = False
+    while not is_valid_last_name:
+        try:
+            last_name = input("Введите имя: ")
+            if len(last_name) < 2:
+                raise NameError("Не валидная фамилия")
+            else:
+                is_valid_last_name = True
+        except NameError as err:
+            print(err)
+            continue
+
 
     is_valid_phone = False
     while not is_valid_phone:
