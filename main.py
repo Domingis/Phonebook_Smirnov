@@ -41,7 +41,7 @@ def get_info():
     is_valid_last_name = False
     while not is_valid_last_name:
         try:
-            last_name = input("Введите имя: ")
+            last_name = input("Введите фамилию: ")
             if len(last_name) < 2:
                 raise NameError("Не валидная фамилия")
             else:
@@ -86,7 +86,7 @@ def write_file(file_name, lst):
     res = read_file(file_name)
     for el in res:
         if el["Телефон"] == str(lst[2]):
-            print("Такой телофон уже есть")
+            print("Такой телефон уже есть")
             return
 
     obj = {"Имя": lst[0], "Фамилия": lst[1], "Телефон": lst[2]}
@@ -96,9 +96,21 @@ def write_file(file_name, lst):
         f_writer.writeheader()
         f_writer.writerows(res)
 
+def copy_data(file_name, file_name_copy):
+    n = int(input('Введите номер копируемой строки: '))
+    with open(file_name, "r", encoding='utf-8') as data:
+        block = list(DictReader(data))[n-1]
+    with open(file_name_copy, "w", encoding='utf-8', newline='') as data:
+        f_writer = DictWriter(data, fieldnames=list(block.keys()))
+        res = []
+        res.append(block)
+        f_writer.writeheader()
+        f_writer.writerows(res)
+
+
 
 file_name = 'phone.csv'
-
+file_name_copy = 'phones_copy.csv'
 
 def main():
     while True:
@@ -114,6 +126,12 @@ def main():
                 print("Файл отсутствует. Создайте его")
                 continue
             print(*read_file(file_name))
+        elif command == 'c':
+            if not exists(file_name):
+                print("Файл отсутствует. Создайте его")
+                continue
+            copy_data(file_name, file_name_copy)
+
 
 
 main()
